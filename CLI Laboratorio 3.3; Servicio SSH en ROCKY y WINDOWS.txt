@@ -1,0 +1,52 @@
+Comandos utilizados, práctica laboratorio 3.3: Tareas Avanzadas y Administración de Servicios de Red.
+
+Servicio SSH en ROCKY y WINDOWS
+
+============================================
+
+#Para conectarnos con el servicio ssh, luego de asegurarnos que nuestras máquinas hacen ping entre ellas, y que los firewalls no interfieran (en este caso la vm Rocky y la física Windows), descargamos la herramienta en nuestro Linux:
+
+sudo dnf install openssh-server
+
+#Activamos el servicio
+
+sudo systemctl start sshd
+sudo systemctl enable sshd
+
+#Verificar el estatus del servicio:
+
+sudo systemctl status sshd
+
+#Ya que tenemos el servicio activo y las máquinas hacen ping, nos dirigimos a la terminal desde la que manejaremos la otra máquina de forma remota (en este caso la Windows). Colocamos el usuario a manejar y la ip de la máquina:
+
+ssh ferna@192.168.1.100
+
+#Aceptaremos conectarnos al host y colocaremos la contraseña de dicho usuario Linux. Podemos utilizar varios comandos para comprobar que estamos dentro de la terminal opuesta:
+
+cd /home/ferna/Desktop 
+ls -l
+
+#Para cerrar la conexión:
+
+exit
+
+#Para generar un par de llaves ssh (ejecutamos desde Windows):
+
+ssh-keygen
+
+#Luego de que las llaves están generadas, copiamos la pública. Lo podemos hacer abriendo el archivo en un notepad y copiando el contenido:
+
+notepad C:/users/usuario/dirección_de_tu_llave
+
+#Luego, vamos a nuestra máquina Rocky a pegar la llave pública de Windows, y así ingresar sin contraseña de forma remota. Para eso, si no tenemos el archivo de llaves autorizadas, lo creamos:
+
+cd
+mkdir .ssh
+cd .ssh
+sudo nano authorized_keys
+
+#Allí pegamos la llave pública copiado anteriormente. Guardamos, salimos, y volvemos a la Windows para el proceso de conexión...
+
+ssh ferna@192.168.1.100
+
+#Si la llave fue compartida correctamente, la conexión iniciará sin contraseña requerida.
