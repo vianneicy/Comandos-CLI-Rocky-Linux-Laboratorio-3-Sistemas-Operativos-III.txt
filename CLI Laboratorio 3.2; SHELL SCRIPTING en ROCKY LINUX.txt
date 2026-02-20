@@ -1,0 +1,53 @@
+Comandos utilizados, práctica laboratorio 3.2: Tareas Avanzadas y Administración de Servicios de Red.
+
+SHELL SCRIPTING en ROCKY LINUX
+
+============================================
+
+#Para crear el primer shell code: hacer un backup de los archivos /home/usuario y guardar dicho backup con la hora y fecha exactas en el nombre.
+
+nano backup_home.sh
+
+#Dentro del archivo, colocamos el script (un backup de /home/usuario con fecha y hora en el nombre):
+
+#!/bin/bash
+FECHA=$(date +"%d-%m-%Y:%H:%M")
+tar -cvzf /home/$(whoami)/backup_home_$FECHA.tar.gz /home/$(whoami)
+
+#Guardamos y cerramos el editor (Ctrl + O, Ctrl + X). Luego, damos permisos de ejecución:
+
+chmod +x backup_home.sh
+
+#Ejecutamos el script:
+
+./backup_home.sh
+
+#Para comprobar la efectividad de la ejecución, listamos los archivos existentes dentro de la carpeta usuario:
+
+cd /home/usuario 
+ls -l
+
+#Para crear el segundo shell code: crear un archivo txt con el resultado del comando ifconfig, que se guarde en el escritorio y que nos pregunte qué nombre deseamos poner al archivo.
+
+sudo nano ifconfig.sh
+
+#Dentro del documento, colocamos el bash:
+
+#!/bin/bash
+read -p "Ingrese el nombre del archivo: " nombre
+ifconfig > /home/$(whoami)/Desktop/"$nombre".txt
+echo "El archivo se ha guardado en el escritorio con el nombre $nombre.txt"
+
+#Salimos del documento y agregamos permisos de ejecución:
+
+sudo chmod +× ifconfig.sh
+
+#Ejecutar el script:
+
+./ifconfig.sh
+
+#Nos preguntará en nombre que queremos asignar al archivo de texto. Por ejemplo, Pruebaif.txt. Para verificar que el archivo existe y contiene el contenido correcto, hacemos lo siguiente:
+
+cd /home/ferna/Desktop
+ls -l
+cat Pruebaif.txt
